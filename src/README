@@ -1,0 +1,19 @@
+#Test passed with rabbitmq-mqtt and mosquitto mqtt client tool, use rabbitmq-public-umbrella to combine lager.
+
+#Usage: copy to [LAGER_DIR]/src/ and build.
+
+#To configure the plugin, set the relevant section of your RabbitMQ config file using the key lager:
+[{rabbit, [...]},
+ {lager, [
+     {handlers, [
+       {lager_console_backend, info},
+       {lager_http_backend,
+          [{address, "http://10.96.250.214/_store"},
+           {method, post},
+           {level, info},
+           {http_formatter, lager_nelo_format},
+           {http_formatter_config, [{"projectName", "OneApp-MQTT"}, {"logLevel", "info"}, {"projectVersion", "1.0.0"}]}
+          ]}
+     ]}
+   ]}
+ ].

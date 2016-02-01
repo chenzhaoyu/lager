@@ -41,6 +41,16 @@
          {lager_file_backend,
           [{file, "log/console.log"}, {level, info},
            {size, 10485760}, {date, "$D0"}, {count, 5}]
+         },
+         %%add by czy
+         {lager_http_backend,
+          [{address, "http://10.96.250.214/_store"},
+           {level, info},
+           {formater, nelo},
+           {formatter_config, [{"preject_name", "OneApp-MQTT"}, {"log_level", "info"}, {"project_version", "1.0.0"}]}
+           
+          ]
+         
          }
         ]).
 
@@ -235,6 +245,9 @@ stop(Handlers) ->
 
 expand_handlers([]) ->
     [];
+expand_handlers([{lager_http_backend, [{Key, _Value}|_]=Config}|T]) when is_atom(Key) ->
+    %% this is definitely a new-style config, no expansion needed
+    [maybe_make_handler_id(lager_http_backend, Config) | expand_handlers(T)];
 expand_handlers([{lager_file_backend, [{Key, _Value}|_]=Config}|T]) when is_atom(Key) ->
     %% this is definitely a new-style config, no expansion needed
     [maybe_make_handler_id(lager_file_backend, Config) | expand_handlers(T)];
