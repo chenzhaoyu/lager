@@ -8,7 +8,6 @@
 -export([init/1, handle_call/2, handle_event/2, handle_info/2, terminate/2,
         code_change/3]).
 
-
 -define(METHODS,
     [get, post]).
 
@@ -17,7 +16,7 @@
 
 -define(DEFAULT_LOG_LEVEL, info).
 
--define(HTTP_ASNYC_HEADER_NEED, "application/x-www-form-urlencoded").
+-define(HTTP_CONTENT_TYPE_FORM_URLENCODED, "application/x-www-form-urlencoded").
 
 -record(state, {
         address :: string(),
@@ -159,11 +158,13 @@ handle_event({log, Message},
     Ret = Formatter:format(Message,FormatConfig),
     case string:len(Ret) of
         0 ->
+            HttpRet = lists:flatten(HttpFormatter:format(Ret, HttpFormatterConfig)),
+            spawn(httpc, request, [Method, {Address, [], "", HttpRet}, [], [{sync, true}]]),
             {ok, State};
         Len ->
             CleanRet = string:sub_string(Ret, 1, Len-1),
             HttpRet = lists:flatten(HttpFormatter:format(CleanRet, HttpFormatterConfig)),
-            spawn(httpc, request, [Method, {Address, [], ?HTTP_ASNYC_HEADER_NEED, HttpRet}, [], [{sync, true}]]),
+            spawn(httpc, request, [Method, {Address, [], "", HttpRet}, [], [{sync, true}]]),
             %%httpc:request(post, {, [], "", HttpRet}, [], [{sync, true}]),
             {ok, State} 
     end;
