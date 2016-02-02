@@ -11,7 +11,7 @@
           [{address, "http://10.96.250.214/_store"},
            {method, post},
            {level, info},
-           {http_formatter, lager_nelo_format},
+           {http_formatter, lager_json_format},
            {http_formatter_config, [{"projectName", "OneApp-MQTT"}, {"logLevel", "info"}, {"projectVersion", "1.0.0"}]}
           ]}
      ]}

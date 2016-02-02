@@ -12,7 +12,7 @@
     [get, post]).
 
 -define(HTTPFORMATTER,
-    [lager_nelo_format]).
+    [lager_json_format]).
 
 -define(DEFAULT_LOG_LEVEL, info).
 
@@ -67,7 +67,7 @@ validate_logfile_proplist(List) ->
                             {level, ?DEFAULT_LOG_LEVEL},
                             {method, post},
                             {formatter, lager_default_formatter}, {formatter_config, []},
-                            {http_formatter, lager_nelo_format}, {http_formatter_config, []}
+                            {http_formatter, lager_json_format}, {http_formatter_config, []}
                         ]))
             end
     catch
