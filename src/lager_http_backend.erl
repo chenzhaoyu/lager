@@ -158,7 +158,7 @@ handle_event({log, Message},
     Ret = Formatter:format(Message,FormatConfig),
     case string:len(Ret) of
         0 ->
-            HttpRet = lists:flatten(HttpFormatter:format(Ret, HttpFormatterConfig)),
+            HttpRet = lists:flatten(HttpFormatter:format(list_to_binary(Ret), HttpFormatterConfig)),
             spawn(httpc, request, [Method, {Address, [], "", HttpRet}, [], [{sync, true}]]),
             {ok, State};
         Len ->
