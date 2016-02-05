@@ -45,9 +45,10 @@
          %%add by czy
          {lager_http_backend,
           [{address, "http://10.96.250.214/_store"},
+           {method, post},
            {level, info},
-           {formater, nelo},
-           {formatter_config, [{"preject_name", "OneApp-MQTT"}, {"log_level", "info"}, {"project_version", "1.0.0"}]}
+           {formater, lager_json_format},
+           {http_formatter_config, [{prejectName, <<"OneApp-MQTT">>}, {logLevel, <<"info">>}, {projectVersion, <<"1.0.0">>}]}
            
           ]
          
