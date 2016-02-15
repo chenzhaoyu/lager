@@ -42,17 +42,6 @@
           [{file, "log/console.log"}, {level, info},
            {size, 10485760}, {date, "$D0"}, {count, 5}]
          },
-         %%add by czy
-         {lager_http_backend,
-          [{address, "http://10.96.250.214/_store"},
-           {method, post},
-           {level, info},
-           {formater, lager_json_format},
-           {http_formatter_config, [{prejectName, <<"OneApp-MQTT">>}, {projectVersion, <<"1.0.0">>}]}
-           
-          ]
-         
-         }
         ]).
 
 start() ->
