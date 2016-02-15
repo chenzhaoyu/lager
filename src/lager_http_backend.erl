@@ -161,7 +161,8 @@ handle_event({log, Message},
             {ok, State};
         Len ->
             CleanRet = string:sub_string(Ret, 1, Len-1),
-            HttpRet = lists:flatten(HttpFormatter:format(CleanRet, HttpFormatterConfig)),
+            CleanRet2 = list_to_binary(lists:flatten(CleanRet)),
+            HttpRet = HttpFormatter:format(CleanRet2, HttpFormatterConfig),
             spawn(httpc, request, [Method, {Address, [], "", HttpRet}, [], [{sync, true}]]),
             %%httpc:request(post, {, [], "", HttpRet}, [], [{sync, true}]),
             {ok, State} 

@@ -25,11 +25,10 @@ json_decode(Term) ->
     end.
 
 jsonFormat(ParsList) ->
-    case json_encode(ParsList) of
+    case json_encode({struct,ParsList}) of
         {error, E} ->
-            io:format("~p", [E]),
             "";
         {ok, Ret} ->
-            Ret
+            iolist_to_binary(Ret)
     end.
 
