@@ -26,7 +26,7 @@ json_decode(Term) ->
 
 jsonFormat(ParsList) ->
     case json_encode({struct,ParsList}) of
-        {error, E} ->
+        {error, _E} ->
             "";
         {ok, Ret} ->
             iolist_to_binary(Ret)

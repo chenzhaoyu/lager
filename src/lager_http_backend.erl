@@ -153,7 +153,7 @@ handle_call(_Request, State) ->
     {ok, ok, State}.
 
 handle_event({log, Message},
-    #state{level=_L,formatter=Formatter,formatter_config=FormatConfig, http_formatter=HttpFormatter,
+    #state{level=Level,formatter=Formatter,formatter_config=FormatConfig, http_formatter=HttpFormatter,
     http_formatter_config=HttpFormatterConfig, method=Method,address=Address} = State) ->
     Ret = Formatter:format(Message,FormatConfig),
     case string:len(Ret) of
@@ -162,7 +162,7 @@ handle_event({log, Message},
         Len ->
             CleanRet = string:sub_string(Ret, 1, Len-1),
             CleanRet2 = list_to_binary(lists:flatten(CleanRet)),
-            HttpRet = HttpFormatter:format(CleanRet2, HttpFormatterConfig),
+            HttpRet = HttpFormatter:format(CleanRet2, [{logLevel,Level}|HttpFormatterConfig),
             spawn(httpc, request, [Method, {Address, [], "", HttpRet}, [], [{sync, true}]]),
             %%httpc:request(post, {, [], "", HttpRet}, [], [{sync, true}]),
             {ok, State} 

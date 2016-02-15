@@ -48,7 +48,7 @@
            {method, post},
            {level, info},
            {formater, lager_json_format},
-           {http_formatter_config, [{prejectName, <<"OneApp-MQTT">>}, {logLevel, <<"info">>}, {projectVersion, <<"1.0.0">>}]}
+           {http_formatter_config, [{prejectName, <<"OneApp-MQTT">>}, {projectVersion, <<"1.0.0">>}]}
            
           ]
          
